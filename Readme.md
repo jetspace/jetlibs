@@ -1,5 +1,7 @@
 # JetLibs
 
+[![Build Status](https://travis-ci.org/jetspace/jetlibs.svg)](https://travis-ci.org/jetspace/jetlibs)
+
 ## Libs from the JetSpace project
 
 Licensed under the MIT/X11 License (see LICENSE file)
