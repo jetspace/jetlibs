@@ -5,6 +5,8 @@ For more details view file 'LICENSE'
 */
 #include "config.h"
 
+FILE *jet_config_file;
+
 bool is_ignored(char *entry)
 {
   return((entry[0] == '/' && entry[1] == '/') || entry[0] == '\n');

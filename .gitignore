@@ -1,3 +1,4 @@
 *.o
 libs/
 header/
+__pycache__/

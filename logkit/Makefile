@@ -8,3 +8,14 @@ clean:
 	rm test
 tester:
 	gcc -std=c99 -Wall test.c -o test -ljetspace-logkit
+
+python:
+	swig -python log.i
+	gcc -c -fPIC log.c log_wrap.c -I /usr/include/python3.4
+	ld -shared log.o log_wrap.o -o _logkit.so
+	rm *.o
+	rm log_wrap.c
+
+pythonclear:
+	rm _logkit.so
+	rm *.py

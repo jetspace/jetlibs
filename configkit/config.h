@@ -24,7 +24,7 @@ void jet_add_new_value(char *file,  char *entry, char *value);
 //set value to entry in file. If add is true, a new one will be created if value entry is not found
 void jet_set_value(char *file, char *entry, char *value, bool add);
 
-FILE *jet_config_file;
+extern FILE *jet_config_file;
 
 void jet_init_config_read(char *file);
 char *jet_get_next_entry(void);

@@ -23,8 +23,7 @@ enum
 };
 
 //set to a default, usefull level
-int JET_LOGLEVEL = JET_LOG_LEVEL_MESSAGE;
-
+extern int JET_LOGLEVEL;
 
 //Get current Log Level
 #define jet_log_get_log_level() JET_LOGLEVEL

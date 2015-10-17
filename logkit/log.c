@@ -6,6 +6,7 @@ For more details view file 'LICENSE'
 
 #include "log.h"
 
+ int JET_LOGLEVEL = JET_LOG_LEVEL_MESSAGE;
 
 short jet_log(short type, char *err)
 {
