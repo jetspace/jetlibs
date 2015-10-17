@@ -103,8 +103,25 @@ void jet_set_value(char *file, char *entry, char *value, bool add)
       continue;
     }
 
-    if(strncmp(buffer, entry, strlen(entry)) != 0)
+    bool notEqual = false;
+
+    if(strlen(entry) > strlen(buffer))
+      notEqual = true;
+    else
+    {
+      int x;
+      for(x = 0; x < strlen(entry); x++)
+        if(buffer[x] != entry[x])
+          notEqual = true;
+
+      if(buffer[strlen(entry)] != ':')
+        notEqual = true;
+    }
+
+    if(notEqual == true)
+    {
       fprintf(temp, "%s", buffer);
+    }
     else
     {
       fprintf(temp, "%s:%s\n", entry, value);
