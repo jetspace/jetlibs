@@ -161,15 +161,18 @@ void jet_close_config_read(void)
 
 char *jet_get_next_entry(void)
 {
-  char buffer[2000];
+  char *buffer = malloc(2000);
 
   fgets(buffer, 2000, jet_config_file);
 
   if(is_ignored(buffer))
     return jet_get_next_entry();
 
+
   if(strstr(buffer, ":") == 0)
     return NULL;
 
-  return strtok(buffer, ":");
+  char *x = strtok(buffer, ":");
+  puts(x);
+  return x;
 }
