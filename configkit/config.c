@@ -173,6 +173,5 @@ char *jet_get_next_entry(void)
     return NULL;
 
   char *x = strtok(buffer, ":");
-  puts(x);
   return x;
 }
