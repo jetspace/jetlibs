@@ -10,6 +10,14 @@ For more details view file 'LICENSE'
 #include <stdio.h>  //printing
 #include <stdlib.h> //memory
 #include <string.h> //creating output
+#include <time.h>   //time code
+
+// DISABLE IF YOU DO NOT WANT TO USE GLIB LOG HANDLERS
+#define _LOGKIT_ENABLE_GLIB_SUPPORT
+
+#ifdef _LOGKIT_ENABLE_GLIB_SUPPORT
+#include <glib.h>
+#endif
 
 enum
 {//print all with log level >= log_level
@@ -46,6 +54,9 @@ short jet_log(short type, char *err);
 //set log_level from env
 void jet_log_set_log_level_from_enviroment(void);
 
+#ifdef _LOGKIT_ENABLE_GLIB_SUPPORT
+void jetspace_logkit_enable_glib_handler(void);
+#endif
 
 
 #endif

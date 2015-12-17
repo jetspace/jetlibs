@@ -1,5 +1,5 @@
 build:
-	gcc -c -Wall -Werror -fPIC log.c -o log.o -std=c99 -g
+	gcc -c -Wall -Werror -fPIC log.c -o log.o -std=c99 -g `pkg-config --libs --cflags glib-2.0`
 	gcc -shared -o ../libs/libjetspace-logkit.so log.o
 	rm log.o
 	cp log.h ../header/logkit.h
@@ -7,7 +7,7 @@ build:
 clean:
 	rm test
 tester:
-	gcc -std=c99 -Wall test.c -o test -ljetspace-logkit
+	gcc -std=c99 -Wall test.c -o test -ljetspace-logkit `pkg-config --libs --cflags glib-2.0`
 
 python:
 	swig -python log.i
