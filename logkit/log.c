@@ -7,7 +7,9 @@ For more details view file 'LICENSE'
 #include "log.h"
 
  int JET_LOGLEVEL = JET_LOG_LEVEL_MESSAGE;
+ int JET_ERROR_LEVEL = JET_LOG_LEVEL_NA;
 
+char *JETSPACE_LOGKIT_APP;
 
 char *logkit_prefix(void)
 {
@@ -116,11 +118,14 @@ short jet_log(short type, char *err)
       fprintf(stderr, "%sINVALID LOGLEVEL! SOME INFOS: %s\n",prefix, err);
     break;
 
-
-
-
   }
   free(prefix);
+
+  if(type >= JET_ERROR_LEVEL)
+  {
+    jetspace_logkit_debug_promt();
+  }
+
   return type;
 
 }
@@ -144,4 +149,68 @@ void jet_log_set_log_level_from_enviroment(void)
   else
     JET_LOGLEVEL = atoi(p);
   return;
+}
+
+void jetspace_logkit_backtrace(void)
+{
+  void *buffer[MAXBACKTRACE];
+  char **funcs;
+  int count = 0;
+
+  count = backtrace(buffer, MAXBACKTRACE);
+  funcs = backtrace_symbols(buffer, count);
+
+  fprintf(stderr, "JetSpace Logkit - Backtrace of %d addresses:\n", count);
+  for(int x = 0; x < count; x++)
+  {
+    fprintf(stderr, " :: [%03d] %s\n", count -x ,funcs[x]);
+  }
+  fprintf(stderr, "End of Backtrace\n");
+
+
+}
+
+void jetspace_logkit_debug_promt(void)
+{
+  printf("Application reached critical error!");
+  int c = 0;
+  char cmd[200];
+  while(c != 'E' && c != 'C')
+  {
+    printf("\n[E]xit - [B]acktrace - [O]pen in GDB - [C]ontinue: ");
+    c = toupper(getchar());
+    switch(c)
+    {
+        case 'E':
+          exit(-1);
+        break;
+
+        case 'B':
+          jetspace_logkit_backtrace();
+        break;
+
+        case 'O':
+          snprintf(cmd, 200, "gdb %s", JETSPACE_LOGKIT_APP);
+          system(cmd);
+        break;
+    }
+  }
+}
+
+void jetspace_logkit_init(int argc, char **argv)
+{
+  if(argc < 1)
+  {
+    jet_log_error("Could not init JetspaceLogkit: invalid arguments");
+    return;
+  }
+  for(int x = 0; x < argc; x++)
+  {
+    if(strcmp(argv[x], "--jetspace-logkit-debug-level") == 0 && argc > x)
+    {
+      JET_ERROR_LEVEL = atoi(argv[x+1]);
+    }
+  }
+
+  JETSPACE_LOGKIT_APP = argv[0]; // Pointer to application name
 }

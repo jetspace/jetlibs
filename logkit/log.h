@@ -7,13 +7,17 @@ For more details view file 'LICENSE'
 #ifndef _JETSPACE_LOGKIT
 #define _JETSPACE_LOGKIT
 
-#include <stdio.h>  //printing
-#include <stdlib.h> //memory
-#include <string.h> //creating output
-#include <time.h>   //time code
+#include <stdio.h>      //printing
+#include <stdlib.h>     //memory
+#include <string.h>     //creating output
+#include <time.h>       //time code
+#include <ctype.h>      //User input (debug promt)
+#include <execinfo.h>   // Backtrace
 
 // DISABLE IF YOU DO NOT WANT TO USE GLIB LOG HANDLERS
 #define _LOGKIT_ENABLE_GLIB_SUPPORT
+
+#define MAXBACKTRACE 500 // number of maximum Backtrace buffer size
 
 #ifdef _LOGKIT_ENABLE_GLIB_SUPPORT
 #include <glib.h>
@@ -27,11 +31,13 @@ enum
   JET_LOG_LEVEL_WARNING,
   JET_LOG_LEVEL_ERROR,
   JET_LOG_LEVEL_CRITICAL,
-  JET_LOG_LEVEL_FAILURE
+  JET_LOG_LEVEL_FAILURE,
+  JET_LOG_LEVEL_NA
 };
 
 //set to a default, usefull level
 extern int JET_LOGLEVEL;
+extern int JET_ERROR_LEVEL;
 
 //Get current Log Level
 #define jet_log_get_log_level() JET_LOGLEVEL
@@ -54,9 +60,18 @@ short jet_log(short type, char *err);
 //set log_level from env
 void jet_log_set_log_level_from_enviroment(void);
 
+//GLibc
 #ifdef _LOGKIT_ENABLE_GLIB_SUPPORT
 void jetspace_logkit_enable_glib_handler(void);
 #endif
 
+// Backtrace
+void jetspace_logkit_backtrace(void);
+
+// Show promt to user to select debuging options
+void jetspace_logkit_debug_promt(void);
+
+// init everything
+void jetspace_logkit_init(int argc, char **argv);
 
 #endif

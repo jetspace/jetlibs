@@ -7,7 +7,7 @@ build:
 clean:
 	rm test
 tester:
-	gcc -std=c99 -Wall test.c -o test -ljetspace-logkit `pkg-config --libs --cflags glib-2.0`
+	gcc  -Wall test.c -o test -ljetspace-logkit `pkg-config --libs --cflags glib-2.0`
 
 python:
 	swig -python log.i
