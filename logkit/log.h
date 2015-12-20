@@ -13,6 +13,7 @@ For more details view file 'LICENSE'
 #include <time.h>       //time code
 #include <ctype.h>      //User input (debug promt)
 #include <execinfo.h>   // Backtrace
+#include <unistd.h>     // PID
 
 // DISABLE IF YOU DO NOT WANT TO USE GLIB LOG HANDLERS
 #define _LOGKIT_ENABLE_GLIB_SUPPORT
