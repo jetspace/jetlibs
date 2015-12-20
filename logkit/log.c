@@ -8,6 +8,7 @@ For more details view file 'LICENSE'
 
  int JET_LOGLEVEL = JET_LOG_LEVEL_MESSAGE;
  int JET_ERROR_LEVEL = JET_LOG_LEVEL_NA;
+ FILE *JET_OLD_STDERR;
 
 char *JETSPACE_LOGKIT_APP;
 
@@ -206,9 +207,20 @@ void jetspace_logkit_init(int argc, char **argv)
   }
   for(int x = 0; x < argc; x++)
   {
-    if(strcmp(argv[x], "--jetspace-logkit-debug-level") == 0 && argc > x)
+    if(strcmp(argv[x], "--jetspace-debug-level") == 0 && argc > x)
     {
       JET_ERROR_LEVEL = atoi(argv[x+1]);
+    }
+    if(strcmp(argv[x], "--jetspace-log-to-file") == 0 && argc > x)
+    {
+        FILE* temp = fopen(argv[x+1], "w+");
+        if(temp == NULL)
+        {
+            jet_log_error("COULD NOT OPEN LOG FILE, DEFAULTING TO STDERR");
+            continue;
+        }
+        JET_OLD_STDERR = stderr;
+        stderr = temp;
     }
   }
 

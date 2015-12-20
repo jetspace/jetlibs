@@ -39,6 +39,7 @@ enum
 //set to a default, usefull level
 extern int JET_LOGLEVEL;
 extern int JET_ERROR_LEVEL;
+extern FILE *JET_OLD_STDERR;
 
 //Get current Log Level
 #define jet_log_get_log_level() JET_LOGLEVEL
