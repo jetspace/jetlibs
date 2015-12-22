@@ -191,7 +191,7 @@ void jetspace_logkit_debug_promt(void)
         break;
 
         case 'O':
-          snprintf(cmd, 200, "gdb \"%s\" %d", JETSPACE_LOGKIT_APP, getpid());
+          snprintf(cmd, 200, "gdb -p %d", getpid());
           system(cmd);
         break;
     }
