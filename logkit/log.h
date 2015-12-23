@@ -7,7 +7,7 @@ For more details view file 'LICENSE'
 #ifndef _JETSPACE_LOGKIT
 #define _JETSPACE_LOGKIT
 
-#define LOGKIT_VERSION "1.0"
+#define LOGKIT_VERSION "1.0-1"
 
 #include <stdio.h>      //printing
 #include <stdlib.h>     //memory
@@ -63,8 +63,9 @@ extern FILE *JETSPACE_OLD_STDERR;
 //log_function
 short jetspace_log(short type, char *format, ...);
 
+
 //set log_level from env
-void jetspace_set_log_level_from_enviroment(void);
+void jetspace_set_log_level_from_environment(void);
 
 //GLibc
 #ifndef _LOGKIT_DISABLE_GLIB_SUPPORT

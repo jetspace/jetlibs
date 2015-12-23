@@ -147,7 +147,7 @@ void jetspace_logkit_enable_glib_handler(void)
 }
 #endif
 
-void jetspace_set_log_level_from_enviroment(void)
+void jetspace_set_log_level_from_environment(void)
 {
   char *p = getenv("LOGLEVEL");
   if(p == NULL)
