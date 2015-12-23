@@ -99,13 +99,13 @@ Logkit - Logging
 
 ::
 
- void jetspace_debug(msg, ...);
- void jetspace_note(msg, ...);
- void jetspace_message(msg, ...);
- void jetspace_warning(msg, ...);
- void jetspace_error(msg, ...);
- void jetspace_critical(msg, ...);
- void jetspace_failure(msg, ...);
+ void jetspace_debug(char *msg, ...);
+ void jetspace_note(char *msg, ...);
+ void jetspace_message(char *msg, ...);
+ void jetspace_warning(char *msg, ...);
+ void jetspace_error(char *msg, ...);
+ void jetspace_critical(char *msg, ...);
+ void jetspace_failure(char *msg, ...);
 
 | **Parameter:**
 | ``msg`` - Message to log, you can use markup like in ``printf``
@@ -184,7 +184,7 @@ A valid log-level is one of the following::
 Command Line arguments
 -----------------------
 
-``jetspace-debug-level <lvl>``
+``--jetspace-debug-level <lvl>``
 
 Use this argument to change the debug-level. This level is used to recognize at which
 point the application should print a debug prompt.
@@ -198,3 +198,37 @@ Redirects ``stderr`` to ``file``.
 ``--jetspace-logkit-version``
 
 Print the version of the Logkit and exit the Application.
+
+Compile
+-------
+
+All functions are defined in ``jetspace/logkit.h``
+
+To compile your application with the Logkit you can use -ljetspace-logkit. **After** this you
+need to call ``pkg-config --libs --cflags glib-2.0`` to use GLib.
+
+To get a better backtrace, you should use the complier argument ``-rdynamic``.
+
+Example Application
+-------------------
+
+::
+
+ /*Public Domain (CC0) tool to test the logkit
+  *
+  * Compile with: gcc example.c -o example -ljetspace-logkit `pkg-config --cflags --libs glib-2.0`
+  * Author: Marius Messerschmidt
+  */
+
+ #include <jetspace/logkit.h>
+
+ int main(int argc, char **argv)
+ {
+     jetspace_logkit_init(argc, argv);
+     jetspace_set_log_level_from_enviroment();
+
+     printf("Current Loglevel is :%d\n", jetspace_get_log_level());
+     jetspace_warning("Test Warning with variable parameter %.2f", (float) 10/3);
+
+     return 0;
+ }
