@@ -4,7 +4,7 @@
 int main(int argc, char **argv)
 {
     jetspace_logkit_init(argc, argv);
-    jetspace_set_log_level_from_enviroment();
+    jetspace_set_log_level_from_environment();
 
     printf("Current Loglevel is :%d\n", jetspace_get_log_level());
     long x = 0;
