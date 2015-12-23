@@ -6,9 +6,9 @@ For more details view file 'LICENSE'
 
 #include "log.h"
 
- int JET_LOGLEVEL = JET_LOG_LEVEL_MESSAGE;
- int JET_ERROR_LEVEL = JET_LOG_LEVEL_NA;
- FILE *JET_OLD_STDERR;
+ int JETSPACE_LOGLEVEL = JETSPACE_LOG_LEVEL_MESSAGE;
+ int JETSPACE_ERROR_LEVEL = JETSPACE_LOG_LEVEL_NA;
+ FILE *JETSPACE_OLD_STDERR;
 
 char *JETSPACE_LOGKIT_APP;
 
@@ -25,7 +25,7 @@ char *logkit_prefix(void)
 }
 
 
-#ifdef _LOGKIT_ENABLE_GLIB_SUPPORT
+#ifndef _LOGKIT_DISABLE_GLIB_SUPPORT
 void logkit_glib_loghandler(const char *domain, GLogLevelFlags log_level, const char *msg, gpointer data)
 {
   char *m = g_strdup(msg);
@@ -33,45 +33,45 @@ void logkit_glib_loghandler(const char *domain, GLogLevelFlags log_level, const 
   switch(log_level)
   {
     case G_LOG_LEVEL_DEBUG:
-      jet_log_debug(m);
+      jetspace_debug(m);
       break;
 
     case G_LOG_LEVEL_INFO:
-      jet_log_note(m);
+      jetspace_note(m);
       break;
 
     case G_LOG_LEVEL_MESSAGE:
-      jet_log_message(m);
+      jetspace_message(m);
       break;
 
     case G_LOG_LEVEL_WARNING:
-      jet_log_warning(m);
+      jetspace_warning(m);
       break;
 
     case G_LOG_LEVEL_CRITICAL:
-      jet_log_critical(m);
+      jetspace_critical(m);
       break;
 
     case G_LOG_LEVEL_ERROR:
-      jet_log_error(m);
+      jetspace_error(m);
       break;
 
     case G_LOG_FLAG_FATAL:
-      jet_log_failure(m);
+      jetspace_failure(m);
       break;
 
     default:
-      jet_log_failure(m);
+      jetspace_failure(m);
       break;
   }
   g_free(m);
 }
 #endif
 
-short jet_log(short type, char *format, ...)
+short jetspace_log(short type, char *format, ...)
 {
 
-  if(type < JET_LOGLEVEL)
+  if(type < JETSPACE_LOGLEVEL)
     return type;
 
   char err[MAX_LOG_LEN];
@@ -85,37 +85,37 @@ short jet_log(short type, char *format, ...)
   switch(type)
   {
     //DEBUG
-    case JET_LOG_LEVEL_DEBUG:
+    case JETSPACE_LOG_LEVEL_DEBUG:
       fprintf(stderr, "%s[D] : %s\n",prefix, err);
     break;
 
     //NOTE
-    case JET_LOG_LEVEL_NOTE:
+    case JETSPACE_LOG_LEVEL_NOTE:
       fprintf(stderr, "%s[N] : %s\n",prefix, err);
     break;
 
     //MESSAGE
-    case JET_LOG_LEVEL_MESSAGE:
+    case JETSPACE_LOG_LEVEL_MESSAGE:
       fprintf(stderr, "%s[M] : %s\n",prefix, err);
     break;
 
     //WARNING
-    case JET_LOG_LEVEL_WARNING:
+    case JETSPACE_LOG_LEVEL_WARNING:
       fprintf(stderr, "%s[W] : %s\n",prefix, err);
     break;
 
     //ERROR
-    case JET_LOG_LEVEL_ERROR:
+    case JETSPACE_LOG_LEVEL_ERROR:
       fprintf(stderr, "%s[!] : %s\n",prefix, err);
     break;
 
     //CRITICAL
-    case JET_LOG_LEVEL_CRITICAL:
+    case JETSPACE_LOG_LEVEL_CRITICAL:
       fprintf(stderr, "%s[*!]: %s\n",prefix, err);
     break;
 
     //FAILURE
-    case JET_LOG_LEVEL_FAILURE:
+    case JETSPACE_LOG_LEVEL_FAILURE:
       fprintf(stderr, "%s[!!]: %s\n",prefix, err);
     break;
 
@@ -127,7 +127,7 @@ short jet_log(short type, char *format, ...)
   }
   free(prefix);
 
-  if(type >= JET_ERROR_LEVEL)
+  if(type >= JETSPACE_ERROR_LEVEL)
   {
     jetspace_logkit_debug_promt();
   }
@@ -137,7 +137,7 @@ short jet_log(short type, char *format, ...)
 }
 
 
-#ifdef _LOGKIT_ENABLE_GLIB_SUPPORT
+#ifndef _LOGKIT_DISABLE_GLIB_SUPPORT
 void jetspace_logkit_enable_glib_handler(void)
 {
   g_log_set_default_handler(logkit_glib_loghandler, NULL);
@@ -147,13 +147,13 @@ void jetspace_logkit_enable_glib_handler(void)
 }
 #endif
 
-void jet_log_set_log_level_from_enviroment(void)
+void jetspace_set_log_level_from_enviroment(void)
 {
   char *p = getenv("LOGLEVEL");
   if(p == NULL)
     return;
   else
-    JET_LOGLEVEL = atoi(p);
+    JETSPACE_LOGLEVEL = atoi(p);
   return;
 }
 
@@ -207,25 +207,31 @@ void jetspace_logkit_init(int argc, char **argv)
 {
   if(argc < 1)
   {
-    jet_log_error("Could not init JetspaceLogkit: invalid arguments");
+    jetspace_error("Could not init JetspaceLogkit: invalid arguments");
     return;
   }
   for(int x = 0; x < argc; x++)
   {
     if(strcmp(argv[x], "--jetspace-debug-level") == 0 && argc > x)
     {
-      JET_ERROR_LEVEL = atoi(argv[x+1]);
+      JETSPACE_ERROR_LEVEL = atoi(argv[x+1]);
     }
     if(strcmp(argv[x], "--jetspace-log-to-file") == 0 && argc > x)
     {
         FILE* temp = fopen(argv[x+1], "w+");
         if(temp == NULL)
         {
-            jet_log_error("COULD NOT OPEN LOG FILE, DEFAULTING TO STDERR");
+            jetspace_error("COULD NOT OPEN LOG FILE, DEFAULTING TO STDERR");
             continue;
         }
-        JET_OLD_STDERR = stderr;
+        JETSPACE_OLD_STDERR = stderr;
         stderr = temp;
+    }
+    if(strcmp(argv[x], "--jetspace-logkit-version") == 0)
+    {
+      printf("JetSpace Logkit version %s\n", LOGKIT_VERSION);
+      printf("Compiled on %s at %s\n", __DATE__, __TIME__);
+      exit(0);
     }
   }
 
