@@ -68,12 +68,17 @@ void logkit_glib_loghandler(const char *domain, GLogLevelFlags log_level, const 
 }
 #endif
 
-short jet_log(short type, char *err)
+short jet_log(short type, char *format, ...)
 {
 
   if(type < JET_LOGLEVEL)
     return type;
 
+  char err[MAX_LOG_LEN];
+  va_list p;
+  va_start(p, format);
+  vsnprintf(err, MAX_LOG_LEN, format, p);
+  va_end(p);
 
   char *prefix = logkit_prefix();
 

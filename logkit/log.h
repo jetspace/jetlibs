@@ -14,11 +14,13 @@ For more details view file 'LICENSE'
 #include <ctype.h>      //User input (debug promt)
 #include <execinfo.h>   // Backtrace
 #include <unistd.h>     // PID
+#include <stdarg.h>     // printf like logging
 
 // DISABLE IF YOU DO NOT WANT TO USE GLIB LOG HANDLERS
 #define _LOGKIT_ENABLE_GLIB_SUPPORT
 
 #define MAXBACKTRACE 500 // number of maximum Backtrace buffer size
+#define MAX_LOG_LEN 2500
 
 #ifdef _LOGKIT_ENABLE_GLIB_SUPPORT
 #include <glib.h>
@@ -48,16 +50,16 @@ extern FILE *JET_OLD_STDERR;
 #define jet_log_set_log_level(x) JET_LOGLEVEL = x
 
 //log macros
-#define jet_log_debug(x) jet_log(JET_LOG_LEVEL_DEBUG, x)
-#define jet_log_note(x) jet_log(JET_LOG_LEVEL_NOTE, x)
-#define jet_log_message(x) jet_log(JET_LOG_LEVEL_MESSAGE, x)
-#define jet_log_warning(x) jet_log(JET_LOG_LEVEL_WARNING, x)
-#define jet_log_error(x) jet_log(JET_LOG_LEVEL_ERROR, x)
-#define jet_log_critical(x) jet_log(JET_LOG_LEVEL_CRITICAL, x)
-#define jet_log_failure(x) jet_log(JET_LOG_LEVEL_FAILURE, x)
+#define jet_log_debug(x, ...) jet_log(JET_LOG_LEVEL_DEBUG, x, ##__VA_ARGS__)
+#define jet_log_note(x, ...) jet_log(JET_LOG_LEVEL_NOTE, x, ##__VA_ARGS__)
+#define jet_log_message(x, ...) jet_log(JET_LOG_LEVEL_MESSAGE, x, ##__VA_ARGS__)
+#define jet_log_warning(x, ...) jet_log(JET_LOG_LEVEL_WARNING, x, ##__VA_ARGS__)
+#define jet_log_error(x, ...) jet_log(JET_LOG_LEVEL_ERROR, x, ##__VA_ARGS__)
+#define jet_log_critical(x, ...) jet_log(JET_LOG_LEVEL_CRITICAL, x, ##__VA_ARGS__)
+#define jet_log_failure(x, ...) jet_log(JET_LOG_LEVEL_FAILURE, x, ##__VA_ARGS__)
 
 //log_function
-short jet_log(short type, char *err);
+short jet_log(short type, char *format, ...);
 
 //set log_level from env
 void jet_log_set_log_level_from_enviroment(void);
