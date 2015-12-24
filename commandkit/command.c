@@ -1,0 +1,92 @@
+/*
+This file is licensed under the MIT-License
+Copyright (c) 2015 Marius Messerschmidt
+For more details view file 'LICENSE'
+*/
+#include "command.h"
+
+JetSpaceCMDArg *commandkit_arg_handle;
+char *commandkit_app_name;
+char *commandkit_app_version;
+int commandkit_arg_handle_n = 0;
+
+void jetspace_add_cmd_line_argument(char sh, char *arg, int id, char *disc, JetSpaceCMDArgCallback cb)
+{
+  commandkit_arg_handle_n++;
+  commandkit_arg_handle = realloc(commandkit_arg_handle, sizeof(JetSpaceCMDArg) * commandkit_arg_handle_n);
+
+  commandkit_arg_handle[commandkit_arg_handle_n - 1].sh = sh;
+  commandkit_arg_handle[commandkit_arg_handle_n - 1].id = id;
+  commandkit_arg_handle[commandkit_arg_handle_n - 1].cb = cb;
+
+  commandkit_arg_handle[commandkit_arg_handle_n - 1].arg = malloc(strlen(arg));
+  strncpy(commandkit_arg_handle[commandkit_arg_handle_n - 1].arg, arg, strlen(arg));
+
+  commandkit_arg_handle[commandkit_arg_handle_n - 1].disc = malloc(strlen(disc) +1);
+  strncpy(commandkit_arg_handle[commandkit_arg_handle_n - 1].disc, disc, strlen(disc));
+}
+
+bool jetspace_parse_cmd_line(int argc, char **argv)
+{
+  for(int x = 0; x < argc; x++)
+  {
+    if(argv[x][0] == '-') // Argument
+    {
+      if(argv[x][1] == '-')  // Long argument
+      {
+
+      }
+      else  // Short Argument
+      {
+        for(int y = 1; y < strlen(argv[x]); y++)
+        {
+          char querry = argv[x][y];
+
+          if(querry == 'h')
+          {
+            jetspace_cmd_line_print_help();
+          }
+
+
+          for(int z = 0; z < commandkit_arg_handle_n; z++)
+          {
+            if(commandkit_arg_handle[z].sh == querry)
+            { // Found match for short argument
+              commandkit_arg_handle[z].cb(argc, argv, commandkit_arg_handle[z].id, NULL);
+              continue;
+            }
+          }
+        }
+      }
+
+
+    }
+  }
+  return true;
+}
+
+void jetspace_cmd_line_print_help(void)
+{
+  printf("%s - Version %s\n", commandkit_app_name, commandkit_app_version);
+  for(int x = 0; x < strlen(commandkit_app_name) + strlen(commandkit_app_version) + 11; x++)
+    putchar('-');
+  putchar('\n');
+
+  for(int x = 0; x < commandkit_arg_handle_n; x++)
+  {
+    printf(" -%c | --%s", commandkit_arg_handle[x].sh, commandkit_arg_handle[x].arg);
+    for(int y = 0; y < (30 - strlen(commandkit_arg_handle[x].arg)); y++)
+      putchar(' ');
+    printf(" : %s\n", commandkit_arg_handle[x].disc);
+  }
+
+}
+
+void jetspace_cmd_line_init(char *name, char *version)
+{
+  commandkit_app_name = malloc(strlen(name));
+  strncpy(commandkit_app_name, name, strlen(name));
+
+  commandkit_app_version = malloc(strlen(version));
+  strncpy(commandkit_app_version, version, strlen(version));
+}

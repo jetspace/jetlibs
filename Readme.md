@@ -13,5 +13,5 @@ All libs are sorted in `kits`. Kits are a collection of functions which fit to o
 ## Kits
 
 * Configkit
-* Infokit
+* Commandkit
 * Logkit
