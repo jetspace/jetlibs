@@ -19,10 +19,12 @@ void jetspace_add_cmd_line_argument(char sh, char *arg, int id, char *disc, JetS
   commandkit_arg_handle[commandkit_arg_handle_n - 1].id = id;
   commandkit_arg_handle[commandkit_arg_handle_n - 1].cb = cb;
 
-  commandkit_arg_handle[commandkit_arg_handle_n - 1].arg = malloc(strlen(arg));
-  strncpy(commandkit_arg_handle[commandkit_arg_handle_n - 1].arg, arg, strlen(arg));
+  commandkit_arg_handle[commandkit_arg_handle_n - 1].arg = malloc(strlen(arg) +2);
+  memset(commandkit_arg_handle[commandkit_arg_handle_n -1].arg, 0, strlen(arg) +2);
+  strncpy(commandkit_arg_handle[commandkit_arg_handle_n -1].arg, "--", 2);
+  strncat(commandkit_arg_handle[commandkit_arg_handle_n - 1].arg, arg, strlen(arg));
 
-  commandkit_arg_handle[commandkit_arg_handle_n - 1].disc = malloc(strlen(disc) +1);
+  commandkit_arg_handle[commandkit_arg_handle_n - 1].disc = malloc(strlen(disc));
   strncpy(commandkit_arg_handle[commandkit_arg_handle_n - 1].disc, disc, strlen(disc));
 }
 
@@ -34,7 +36,19 @@ bool jetspace_parse_cmd_line(int argc, char **argv)
     {
       if(argv[x][1] == '-')  // Long argument
       {
-
+          if(strcmp(argv[x], "--help") == 0)
+          {
+            jetspace_cmd_line_print_help();
+            continue;
+          }
+          for(int z = 0; z < commandkit_arg_handle_n; z++)
+          {
+            if(strcmp(argv[x], commandkit_arg_handle[z].arg) == 0)
+            {
+              commandkit_arg_handle[z].cb(argc, argv, commandkit_arg_handle[z].id, NULL);
+              continue;
+            }
+          }
       }
       else  // Short Argument
       {
