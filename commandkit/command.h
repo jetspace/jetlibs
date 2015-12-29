@@ -20,6 +20,7 @@ struct _CMDArg
   char sh;                    // Short option         -h
   int id;                     // ID passed to Callback
   char *disc;                 // Descripton for --help
+  void *data;                  // data POINTER passed to callback
   JetSpaceCMDArgCallback cb;  // Callback
 };
 
@@ -27,7 +28,7 @@ typedef struct _CMDArg JetSpaceCMDArg;
 
 extern JetSpaceCMDArg *commandkit_arg_handle;
 
-extern void jetspace_add_cmd_line_argument(char sh, char *arg, int id, char *disc, JetSpaceCMDArgCallback cb);
+extern void jetspace_add_cmd_line_argument(char sh, char *arg, int id, char *disc, JetSpaceCMDArgCallback cb, void *data);
 bool jetspace_parse_cmd_line(int argc, char **argv);
 void jetspace_cmd_line_print_help(void);
 void jetspace_cmd_line_init(char *name, char *version);

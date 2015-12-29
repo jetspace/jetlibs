@@ -10,7 +10,7 @@ char *commandkit_app_name;
 char *commandkit_app_version;
 int commandkit_arg_handle_n = 0;
 
-void jetspace_add_cmd_line_argument(char sh, char *arg, int id, char *disc, JetSpaceCMDArgCallback cb)
+void jetspace_add_cmd_line_argument(char sh, char *arg, int id, char *disc, JetSpaceCMDArgCallback cb, void *data)
 {
   commandkit_arg_handle_n++;
   commandkit_arg_handle = realloc(commandkit_arg_handle, sizeof(JetSpaceCMDArg) * commandkit_arg_handle_n);
@@ -26,6 +26,8 @@ void jetspace_add_cmd_line_argument(char sh, char *arg, int id, char *disc, JetS
 
   commandkit_arg_handle[commandkit_arg_handle_n - 1].disc = malloc(strlen(disc));
   strncpy(commandkit_arg_handle[commandkit_arg_handle_n - 1].disc, disc, strlen(disc));
+
+  commandkit_arg_handle[commandkit_arg_handle_n - 1].data = data;
 }
 
 bool jetspace_parse_cmd_line(int argc, char **argv)
@@ -45,7 +47,7 @@ bool jetspace_parse_cmd_line(int argc, char **argv)
           {
             if(strcmp(argv[x], commandkit_arg_handle[z].arg) == 0)
             {
-              commandkit_arg_handle[z].cb(argc, argv, commandkit_arg_handle[z].id, NULL);
+              commandkit_arg_handle[z].cb(argc, argv, commandkit_arg_handle[z].id, commandkit_arg_handle[z].data);
               continue;
             }
           }
@@ -66,14 +68,12 @@ bool jetspace_parse_cmd_line(int argc, char **argv)
           {
             if(commandkit_arg_handle[z].sh == querry)
             { // Found match for short argument
-              commandkit_arg_handle[z].cb(argc, argv, commandkit_arg_handle[z].id, NULL);
+              commandkit_arg_handle[z].cb(argc, argv, commandkit_arg_handle[z].id, commandkit_arg_handle[z].data);
               continue;
             }
           }
         }
       }
-
-
     }
   }
   return true;
@@ -88,7 +88,7 @@ void jetspace_cmd_line_print_help(void)
 
   for(int x = 0; x < commandkit_arg_handle_n; x++)
   {
-    printf(" -%c | --%s", commandkit_arg_handle[x].sh, commandkit_arg_handle[x].arg);
+    printf(" -%c | %s", commandkit_arg_handle[x].sh, commandkit_arg_handle[x].arg);
     for(int y = 0; y < (30 - strlen(commandkit_arg_handle[x].arg)); y++)
       putchar(' ');
     printf(" : %s\n", commandkit_arg_handle[x].disc);
