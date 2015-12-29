@@ -26,8 +26,6 @@ struct _CMDArg
 
 typedef struct _CMDArg JetSpaceCMDArg;
 
-extern JetSpaceCMDArg *commandkit_arg_handle;
-
 extern void jetspace_add_cmd_line_argument(char sh, char *arg, int id, char *disc, JetSpaceCMDArgCallback cb, void *data);
 bool jetspace_parse_cmd_line(int argc, char **argv);
 void jetspace_cmd_line_print_help(void);

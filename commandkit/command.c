@@ -5,10 +5,10 @@ For more details view file 'LICENSE'
 */
 #include "command.h"
 
-JetSpaceCMDArg *commandkit_arg_handle;
-char *commandkit_app_name;
-char *commandkit_app_version;
-int commandkit_arg_handle_n = 0;
+static JetSpaceCMDArg *commandkit_arg_handle;
+static char *commandkit_app_name;
+static char *commandkit_app_version;
+static int commandkit_arg_handle_n = 0;
 
 void jetspace_add_cmd_line_argument(char sh, char *arg, int id, char *disc, JetSpaceCMDArgCallback cb, void *data)
 {
@@ -25,7 +25,8 @@ void jetspace_add_cmd_line_argument(char sh, char *arg, int id, char *disc, JetS
   strncat(commandkit_arg_handle[commandkit_arg_handle_n - 1].arg, arg, strlen(arg));
 
   commandkit_arg_handle[commandkit_arg_handle_n - 1].disc = malloc(strlen(disc));
-  strncpy(commandkit_arg_handle[commandkit_arg_handle_n - 1].disc, disc, strlen(disc));
+  memset(commandkit_arg_handle[commandkit_arg_handle_n -1].disc, 0, strlen(disc));
+  strncat(commandkit_arg_handle[commandkit_arg_handle_n - 1].disc, disc, strlen(disc));
 
   commandkit_arg_handle[commandkit_arg_handle_n - 1].data = data;
 }
@@ -99,8 +100,10 @@ void jetspace_cmd_line_print_help(void)
 void jetspace_cmd_line_init(char *name, char *version)
 {
   commandkit_app_name = malloc(strlen(name));
-  strncpy(commandkit_app_name, name, strlen(name));
+  memset(commandkit_app_name, 0, strlen(name));
+  strncat(commandkit_app_name, name, strlen(name));
 
   commandkit_app_version = malloc(strlen(version));
-  strncpy(commandkit_app_version, version, strlen(version));
+  memset(commandkit_app_version, 0, strlen(version));
+  strncat(commandkit_app_version, version, strlen(version));
 }
