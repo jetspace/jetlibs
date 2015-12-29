@@ -1,4 +1,5 @@
 //Public Domain (CC0) tool to test the logkit
+#define _LOGKIT_DISABLE_GLIB_SUPPORT
 #include <jetspace/logkit.h>
 
 int main(int argc, char **argv)
