@@ -5,7 +5,8 @@ Overview
 --------
 
 The Logkit is designed to be used for logging and debugging. By default it requires
-GLib, but you can compile it from source with disabled GLib Interface.
+GLib, but there is also a linking option for non-glib projects. See more in the Compile
+section!
 
 It feauters an level driven logging API plus the possibility to control parameters of
 the logging system via command line arguments.
@@ -206,6 +207,9 @@ All functions are defined in ``jetspace/logkit.h``
 
 To compile your application with the Logkit you can use -ljetspace-logkit. **After** this you
 need to call ``pkg-config --libs --cflags glib-2.0`` to use GLib.
+
+If you want to compile **WITHOUT** GLib suppot, you need to use the ``-ljetspace-logkit-noglib`` option.
+You also need to define ``_LOGKIT_DISABLE_GLIB_SUPPORT``  **BEFORE** you include the header.
 
 To get a better backtrace, you should use the complier argument ``-rdynamic``.
 
