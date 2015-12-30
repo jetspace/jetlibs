@@ -107,3 +107,15 @@ void jetspace_cmd_line_init(char *name, char *version)
   memset(commandkit_app_version, 0, strlen(version));
   strncat(commandkit_app_version, version, strlen(version));
 }
+
+void jetspace_cmd_line_free(void)
+{
+  for(int x = 0; x < commandkit_arg_handle_n; x++)
+  {
+    free(commandkit_arg_handle[x].disc);
+    free(commandkit_arg_handle[x].arg);
+  }
+  free(commandkit_arg_handle);
+  free(commandkit_app_version);
+  free(commandkit_app_name);
+}

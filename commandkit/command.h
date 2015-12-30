@@ -31,5 +31,6 @@ bool jetspace_parse_cmd_line(int argc, char **argv);
 void jetspace_cmd_line_print_help(void);
 void jetspace_cmd_line_init(char *name, char *version);
 
+void jetspace_cmd_line_free(void);
 
 #endif
