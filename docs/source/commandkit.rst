@@ -49,7 +49,8 @@ jetspace_add_cmd_line_argument
 | **Return:**
 | (none)
 
-You can add as many arguments as you want. Please note that you can not use the two predefined arguments ``-h | --help`` or ``-v | --version``.
+You can add as many arguments as you want. Please note that you can not use the two predefined arguments ``-h | --help`` or ``-v | --version``. If you pass ``0`` to ``sh`` this argument will
+only have a long-form
 
 
 Commandkit - Parsing

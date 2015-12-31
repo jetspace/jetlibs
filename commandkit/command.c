@@ -67,8 +67,12 @@ bool jetspace_parse_cmd_line(int argc, char **argv)
 
           for(int z = 0; z < commandkit_arg_handle_n; z++)
           {
+            if(commandkit_arg_handle[z].sh == 0)
+              continue; //SKIP, does not provide short option
+
             if(commandkit_arg_handle[z].sh == querry)
             { // Found match for short argument
+
               commandkit_arg_handle[z].cb(argc, argv, commandkit_arg_handle[z].id, commandkit_arg_handle[z].data);
               continue;
             }
@@ -89,7 +93,10 @@ void jetspace_cmd_line_print_help(void)
 
   for(int x = 0; x < commandkit_arg_handle_n; x++)
   {
-    printf(" -%c | %s", commandkit_arg_handle[x].sh, commandkit_arg_handle[x].arg);
+    if(commandkit_arg_handle[x].sh != 0)
+      printf(" -%c | %s", commandkit_arg_handle[x].sh, commandkit_arg_handle[x].arg);
+    else
+      printf("      %s", commandkit_arg_handle[x].arg);
     for(int y = 0; y < (30 - strlen(commandkit_arg_handle[x].arg)); y++)
       putchar(' ');
     printf(" : %s\n", commandkit_arg_handle[x].disc);
