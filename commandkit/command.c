@@ -44,6 +44,11 @@ bool jetspace_parse_cmd_line(int argc, char **argv)
             jetspace_cmd_line_print_help();
             continue;
           }
+          if(strcmp(argv[x], "--version") == 0)
+          {
+            jetspace_cmd_line_print_version();
+            continue;
+          }
           for(int z = 0; z < commandkit_arg_handle_n; z++)
           {
             if(strcmp(argv[x], commandkit_arg_handle[z].arg) == 0)
@@ -62,6 +67,13 @@ bool jetspace_parse_cmd_line(int argc, char **argv)
           if(querry == 'h')
           {
             jetspace_cmd_line_print_help();
+            continue;
+          }
+
+          if(querry == 'v')
+          {
+            jetspace_cmd_line_print_version();
+            continue;
           }
 
 
@@ -103,6 +115,15 @@ void jetspace_cmd_line_print_help(void)
   }
 
 }
+
+void jetspace_cmd_line_print_version(void)
+{
+  printf("%s - Version %s\n", commandkit_app_name, commandkit_app_version);
+  for(int x = 0; x < strlen(commandkit_app_name) + strlen(commandkit_app_version) + 11; x++)
+    putchar('-');
+  putchar('\n');
+}
+
 
 void jetspace_cmd_line_init(char *name, char *version)
 {

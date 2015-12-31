@@ -50,7 +50,7 @@ jetspace_add_cmd_line_argument
 | (none)
 
 You can add as many arguments as you want. Please note that you can not use the two predefined arguments ``-h | --help`` or ``-v | --version``. If you pass ``0`` to ``sh`` this argument will
-only have a long-form
+only have a long-form.
 
 
 Commandkit - Parsing
@@ -87,7 +87,21 @@ jetspace_cmd_line_print_help
 | **Return:**
 | (none)
 
-Print an automatically  generated help output to ``stdout``. Normally you do not need this function because ``-h | --help`` is handled by the commandkit, so you the help output will be done automatically.
+Print an automatically generated help output to ``stdout``. Normally you do not need this function because ``-h | --help`` is handled by the commandkit, so you the help output will be done automatically.
+
+jetspace_cmd_line_print_version
+"""""""""""""""""""""""""""""""
+
+::
+
+ void jetspace_cmd_line_print_version(void);
+
+| **Parameter:**
+| (none)
+| **Return:**
+| (none)
+
+Print an automatically generated version output to ``stdout``. Normally you do not need this function because ``-v | --version`` is handled by the commandkit, so you the version output will be done automatically.
 
 
 Commandkit - Cleanup
