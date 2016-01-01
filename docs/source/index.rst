@@ -14,3 +14,4 @@ Contents:
 
    logkit
    commandkit
+   configkit

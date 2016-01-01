@@ -12,23 +12,23 @@ For more details view file 'LICENSE'
 #include <stdbool.h>
 
 //check if string is ignored for config parsing
-bool is_ignored(char *entry);
+extern bool is_ignored(char *entry);
 //dump config file to screen
-void jet_dump_config_file(char *file);
+extern void jet_dump_config_file(char *file);
 
 //get value asigned to entry in file
-char *jet_lookup_value(char *file,char *entry);
+extern char *jet_lookup_value(char *file,char *entry);
 
 //Add a new entry to file with value (you should normaly not use this)
-void jet_add_new_value(char *file,  char *entry, char *value);
+extern void jet_add_new_value(char *file,  char *entry, char *value);
 //set value to entry in file. If add is true, a new one will be created if value entry is not found
-void jet_set_value(char *file, char *entry, char *value, bool add);
+extern void jet_set_value(char *file, char *entry, char *value, bool add);
 
 extern FILE *jet_config_file;
 
-void jet_init_config_read(char *file);
-char *jet_get_next_entry(void);
-void jet_close_config_read(void);
+extern void jet_init_config_read(char *file);
+extern char *jet_get_next_entry(void);
+extern void jet_close_config_read(void);
 
 
 #endif
