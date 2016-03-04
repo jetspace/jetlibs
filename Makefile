@@ -3,6 +3,7 @@ build:
 	make -C logkit
 	make -C configkit
 	make -C commandkit
+	make -C processkit
 
 install:
 	sudo mkdir -p /usr/include/jetspace/

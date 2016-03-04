@@ -7,6 +7,8 @@ cd configkit && make tester
 cd ..
 cd logkit && make tester
 cd ..
+cd processkit && make tester
+cd ..
 
 ./logkit/test
 if [ "$?" != "0" ]
@@ -20,3 +22,10 @@ if [ "$?" != "0" ]
   then
     exit 1
   fi
+
+  ./processkit/test
+
+  if [ "$?" != "0" ]
+    then
+      exit 1
+    fi
