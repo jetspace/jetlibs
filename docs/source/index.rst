@@ -15,3 +15,4 @@ Contents:
    logkit
    commandkit
    configkit
+   processkit
