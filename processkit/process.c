@@ -10,6 +10,8 @@ For more details view file 'LICENSE'
 #include <dirent.h>
 #include <stdbool.h>
 #include <ctype.h>
+#include <sys/time.h>
+#include <sys/resource.h>
 
 int *jetspace_get_pids(int *size)
 {
@@ -55,6 +57,8 @@ JetSpaceProcess *jetspace_get_process(int pid)
 
   fscanf(f, "%d %ms %c", &p->pid, &p->name, &p->state);
   fclose(f);
+
+  p->priority = getpriority(PRIO_PROCESS, p->pid);
 
   return p;
 }

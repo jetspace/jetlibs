@@ -11,6 +11,7 @@ typedef struct _jetspace_process
   int pid;
   char *name;
   char state;
+  int priority;
 }JetSpaceProcess;
 
 extern int *jetspace_get_pids(int *size);

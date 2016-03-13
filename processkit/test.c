@@ -13,6 +13,7 @@ int main(void)
     JetSpaceProcess *p = jetspace_get_process(pids[x]);
     printf("state> %c\n", p->state);
     printf("name > %s\n", p->name);
+    printf("prio > %d\n", p->priority);
     free(p);
   }
 
