@@ -5,6 +5,7 @@ For more details view file 'LICENSE'
 */
 #ifndef _JETSPACE_PROCESSKIT
 #define _JETSPACE_PROCESSKIT
+#include <pwd.h>
 
 typedef struct _jetspace_process
 { // For details see proc(5)
@@ -12,6 +13,8 @@ typedef struct _jetspace_process
   char *name;
   char state;
   int priority;
+  int uid;
+  struct passwd *user;
 }JetSpaceProcess;
 
 extern int *jetspace_get_pids(int *size);

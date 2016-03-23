@@ -60,5 +60,20 @@ JetSpaceProcess *jetspace_get_process(int pid)
 
   p->priority = getpriority(PRIO_PROCESS, p->pid);
 
+  snprintf(path, strlen("/proc//status") + 10, "/proc/%d/status", pid);
+  f = fopen(path, "r");
+  char buffer[2000];
+  while(fgets(buffer, 2000, f) != NULL)
+  {
+    if(strncmp(buffer, "Uid:", 4) == 0)
+    {
+      strtok(buffer, "Uid:\t");
+      p->uid = atoi(strtok(NULL, "\t"));
+    }
+  }
+  fclose(f);
+
+  free(path);
+  p->user = getpwuid(p->uid);
   return p;
 }
