@@ -14,7 +14,7 @@ START_TEST(test_ignored)
   {
     ck_abort_msg("configkit does not ignore empty lines");
   }
-  else if(is_ignored("abc:def"));
+  else if(is_ignored("abc:def"))
   {
     ck_abort_msg("configkit does skip valid entry");
   }
@@ -78,7 +78,7 @@ Suite *test_suite(void)
   return s;
 }
 
-int int main(int argc, char **argv)
+int main(int argc, char **argv)
 {
   Suite *s = test_suite();
   SRunner *sr = srunner_create(s);
