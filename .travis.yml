@@ -19,7 +19,7 @@ before_install:
 
 after_success:
   - "cp configkit/*c* ."
-  - "cp test/*c* ."
+  - "cp tests/*c* ."
   - "sudo chmod +rw * -R"
   - "ls -R" #Debug
   - "codecov"
