@@ -1,6 +1,8 @@
 # JetLibs
 
 [![Build Status](https://travis-ci.org/jetspace/jetlibs.svg)](https://travis-ci.org/jetspace/jetlibs)
+[![codecov.io](https://codecov.io/github/jetspace/jetlibs/coverage.svg?branch=master)](https://codecov.io/github/jetspace/jetlibs?branch=master)
+
 
 ## Libs from the JetSpace project
 
