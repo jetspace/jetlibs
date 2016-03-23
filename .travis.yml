@@ -12,14 +12,14 @@ before_script:
   - "sh -e /etc/init.d/xvfb start"
   - sleep 3 # give xvfb some time to start
 
-script: make && make install && make test
+script: make -e && make install && make test
 
 before_install:
   - pip install --user codecov
 
 after_success:
-  - "cp configkit/*.gcno ."
-  - "cp test/*.gcno ."
+  - "cp configkit/*c* ."
+  - "cp test/*c* ."
   - "sudo chmod +rw * -R"
   - "ls -R" #Debug
   - "codecov"

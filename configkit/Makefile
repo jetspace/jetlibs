@@ -1,6 +1,6 @@
 build:
-	gcc -c -std=c99 -Wall -Werror -fPIC  config.c -o config.o
-	gcc -shared -o ../libs/libjetspace-configkit.so config.o
+	gcc -c -std=c99 -Wall -Werror -fPIC $(CFLAGS_BASE)  config.c -o config.o
+	gcc -shared $(LDFLAGS_BASE) -o ../libs/libjetspace-configkit.so config.o
 	cp config.h ../header/configkit.h
 	rm config.o
 tester:
