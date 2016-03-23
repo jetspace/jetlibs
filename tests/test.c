@@ -44,7 +44,7 @@ END_TEST
 START_TEST(add_value)
 {
   jet_add_new_value(CONFIG, "test", "sample");
-  ck_assert_str_eq("sanple", jet_lookup_value(CONFIG, "test"));
+  ck_assert_str_eq("sample", jet_lookup_value(CONFIG, "test"));
 }
 END_TEST
 
