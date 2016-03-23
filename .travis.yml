@@ -18,8 +18,8 @@ before_install:
   - pip install --user codecov
 
 after_success:
-  - "cp configkit/*c* ."
-  - "cp test/*c* ."
+  - "cp configkit/*.gcno ."
+  - "cp test/*.gcno ."
   - "sudo chmod +rw * -R"
   - "ls -R" #Debug
   - "codecov"
