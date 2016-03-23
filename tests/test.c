@@ -87,5 +87,5 @@ int main(int argc, char **argv)
   int res = srunner_ntests_failed(sr);
   srunner_free(sr);
 
-  return sr;
+  return res;
 }
