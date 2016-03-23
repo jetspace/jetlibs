@@ -9,3 +9,6 @@ install:
 	sudo mkdir -p /usr/include/jetspace/
 	sudo cp header/* /usr/include/jetspace/
 	sudo cp libs/* /usr/lib/
+
+test:
+	make runtests -C tests
